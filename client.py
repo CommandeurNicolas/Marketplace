@@ -1,28 +1,30 @@
 from soap_client import print_shipping, get_shipping
 from graphql_client import print_products, get_price, get_weight, get_product
 
-total = 0
-
-def print_total_price(price, shipping):
-    global total
-    total = total + price + shipping
-    print("Total price is : %i€" % total)
 
 def main():
+    total = 0
+
     while(1):
         print_products()
-        choice = int(input("What do you want to buy ? ")) - 1
-        times = int(input("How many ? "))
-        distance = int(input("Distance from our center ? "))
+        choice = int(input("What do you want to buy ?\t")) - 1
+        times = int(input("How many ?\t"))
+        distance = int(input("Distance from our center ? (km)\t"))
         weight = int(get_weight(choice)*times)
         shipping = get_shipping(distance, weight)
         price = get_price(choice)*times
-        print_total_price(price, shipping)
+
+        print("____________ CART ____________")
+        total = total + price
+        print(" Items price :\t\t%i€" % total)
+        total = total + shipping
+        print(" shipping price :\t%i€" % shipping)
+        print(" Total price is :\t%i€" % total)
 
         buy = str(input("Go to payment ? y/n\t"))
         if(buy == "y"):
-            print("payment processing ...")
-            print("Payment succeeded !")
+            print("\tPayment processing ...")
+            print("\tPayment succeeded !")
             break
         else:
             print("You continue your shopping ...")
